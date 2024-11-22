@@ -13,6 +13,8 @@ Group: Servers
 # numbers up to 8.3.x (it was dropped in 8.4)
 Obsoletes: php-imap > 5.0
 BuildRequires: php-devel
+BuildRequires: c-client-devel
+BuildRequires: pkgconfig(openssl)
 
 %description
 PHP extension to use the IMAP, NNTP and POP3 protocols and access local mailboxes
@@ -22,7 +24,9 @@ PHP extension to use the IMAP, NNTP and POP3 protocols and access local mailboxe
 
 %conf
 phpize
-%configure --with-libdir=%{_lib}
+if ! %configure --with-libdir=%{_lib}; then
+	cat config.log
+fi
 
 %build
 %make_build
